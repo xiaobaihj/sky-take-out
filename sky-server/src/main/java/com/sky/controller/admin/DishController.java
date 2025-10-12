@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 菜品管理
  */
-@RestController
+@RestController("adminDishController")
 @RequestMapping("/admin/dish")
 @Slf4j
 @Api(tags = "菜品相关接口")
@@ -88,5 +88,29 @@ public class DishController {
         return Result.success();
     }
 
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据分类id查询菜品")
+    public Result<List<Dish>> list(Long categoryId){
+        List<Dish> dish=  dishService.list(categoryId);
+        return Result.success(dish);
+    }
+
+    /**
+     * 菜品起售和停售
+     * @param status
+     * @param id
+     * @return
+     */
+    @ApiOperation("菜品起售和停售")
+    @PostMapping("/status/{status}")
+    public Result<String> startOrStop(@PathVariable String status,Long id){
+        dishService.startOrStop(status,id);
+        return Result.success();
+    }
 
 }
